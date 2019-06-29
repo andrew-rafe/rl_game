@@ -4,6 +4,7 @@ using namespace rl_game;
 
 
 
+
 Gridworld::Gridworld() {
     m_num_columns = 5;
     m_num_rows = 5;
@@ -21,7 +22,7 @@ Gridworld::~Gridworld() {
 }
 
 std::vector<int> Gridworld::step(int action) {
-
+    
     return std::vector<int>();
 }
 
@@ -60,6 +61,7 @@ void Gridworld::print_game_board() {
         add_horizontal_gridline(string_board);
     }
     std::cout << string_board << std::endl;
+    std::cout << int(action_space.sample());
 }
 
 //HELPER FUNCTIONS
@@ -87,6 +89,7 @@ std::vector<int> Gridworld::generate_game_board () {
     return game_board;
 }
 
+//Will add a horizontal gridline into a string reference
 void Gridworld::add_horizontal_gridline(std::string& board) {
     unsigned int num_dashes = m_num_columns * 2 + 1;
     //Add a specific number of dashes to the game board
@@ -98,10 +101,20 @@ void Gridworld::add_horizontal_gridline(std::string& board) {
     board += "\n";
 }
 
+// Will convert a coordinate to an index
 unsigned int Gridworld::get_index(unsigned int x, unsigned int y) {
     return y * m_num_rows + x;
 }
 
+// Will convert an index into a pair of coordinates
+std::pair<int,int> Gridworld::get_coord_from_index(int index) {
+    //The x value is the index modded with the number of rows
+    int x = index % m_num_rows;
+    int y = int(index / m_num_rows);
+    return {x,y};
+}
+
+//Will place an item on the board given a coordinate object and a reference to the board
 bool Gridworld::place_item(int x, int y, int object, std::vector<int>& board) {
     //Get the appropriate board index
     int index = get_index(x,y);

@@ -29,10 +29,11 @@ namespace rl_game {
             void add_horizontal_gridline(std::string& board);
             unsigned int get_index(unsigned int, unsigned int);
             bool place_item(int x, int y, int object, std::vector<int>& board);
+            std::pair<int, int> get_coord_from_index(int index);
 
         public:
-            //Allows for direct calls to action space functions protected through const
-            const rl_game::ActionSpace action_space = ActionSpace(4);
+            //Allows for direct calls to action space functions protected through cons
+            rl_game::ActionSpace action_space = ActionSpace(4);
 
             //Default constructor will make a 5x5 game board
             Gridworld();
