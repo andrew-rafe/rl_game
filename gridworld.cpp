@@ -22,21 +22,45 @@ Gridworld::~Gridworld() {
 }
 
 std::vector<int> Gridworld::step(int action) {
-    
+    //Get the player grid location
+    std::pair<int,int> player_coord = get_coord_from_index(m_player_index);
+
+    if (action == 0) {
+        //Move up
+        player_coord.second -= (player_coord.second > 0) ? 1 : 0;
+    } else if (action == 1) {
+        //Move right
+        player_coord.first += (player_coord.first < m_num_columns + 1) ? 1 : 0;
+    } else if (action == 2) {
+        //Move down
+        player_coord.second += (player_coord.second < m_num_rows + 1) ? 1 : 0;
+    } else if (action == 3) {
+        //Move left
+        player_coord.first -= (player_coord.first > 0) ? 1 : 0;
+    }
+    //Remove from last position
+    m_board[m_player_index] = EMPTY;
+    m_player_index = get_index(player_coord.first, player_coord.second);
+    m_board[m_player_index] = PLAYER;
+
+
     return std::vector<int>();
 }
 
 std::vector<int> Gridworld::step(int action, bool& done) {
-    done = false;
-
-    return std::vector<int>();
+    std::vector<int> world = step(action);
+    //if the player is at the exit then the game is over
+    done = (m_player_index == m_exit_index) ? true: false;
+    return world;
 }
 
 std::vector<int> Gridworld::step(int action, int& reward, bool& done) {
     done = false;
     reward = 0;
+    std::vector<int> world = step(action, done);
+    reward = done ? 20 : -1;
 
-    return std::vector<int>();
+    return world;
 }
 
 void Gridworld::print_game_board() {
@@ -61,7 +85,6 @@ void Gridworld::print_game_board() {
         add_horizontal_gridline(string_board);
     }
     std::cout << string_board << std::endl;
-    std::cout << int(action_space.sample());
 }
 
 //HELPER FUNCTIONS
