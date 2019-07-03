@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
     srand(time(0));
 
     //Create a new game
-    rl_game::Gridworld* game = new rl_game::Gridworld(10,10);
+    rl_game::Gridworld* game = new rl_game::Gridworld();
     game->print_game_board();
     std::vector<int> state;
     bool done = false;
@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
         game->print_game_board();
     }
 
-    std::cout << "Total Reward: " << std::endl;
+    std::cout << "Total Reward: " << total_reward << std::endl;
 
     delete game;
 

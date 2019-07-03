@@ -30,16 +30,18 @@ std::vector<int> Gridworld::step(int action) {
         player_coord.second -= (player_coord.second > 0) ? 1 : 0;
     } else if (action == 1) {
         //Move right
-        player_coord.first += (player_coord.first < m_num_columns + 1) ? 1 : 0;
+        player_coord.first += (player_coord.first < m_num_columns) ? 1 : 0;
     } else if (action == 2) {
         //Move down
-        player_coord.second += (player_coord.second < m_num_rows + 1) ? 1 : 0;
+        player_coord.second += (player_coord.second < m_num_rows) ? 1 : 0;
     } else if (action == 3) {
         //Move left
         player_coord.first -= (player_coord.first > 0) ? 1 : 0;
     }
     //Remove from last position
-    m_board[m_player_index] = EMPTY;
+    //unless that last position was the goal
+
+    m_board[m_player_index] = (m_player_index != m_exit_index) ? EMPTY : EXIT;
     m_player_index = get_index(player_coord.first, player_coord.second);
     m_board[m_player_index] = PLAYER;
 
