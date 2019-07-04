@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "gridworld.h"
-#include "../SNN/network.h"
+#include "../snn/network.h"
 
 int main(int argc, char* argv[]) {
     //Seed randomness
@@ -24,14 +24,20 @@ int main(int argc, char* argv[]) {
     game->print_game_board();
     std::vector<float> state = game->get_state();
     bool done = false;
-    int total_reward, curr_reward = 0;
+    int total_reward = 0;
+    int curr_reward = 0;
     long long timestep = 0;
-    while (!done && timestep < 1000) {
+    while (!done && timestep < 100) {
         //process the inputs in the network
-        for (int i = 0; i < 20; i++) {
+        if (timestep == 0) {
+            for (int i = 0; i < 20; i++) {
             network->process_inputs(state, timestep, state.size());
             timestep++;
+            }
+        } else {
+            network->process_inputs(state, timestep, state.size());
         }
+        
         int action = network->get_action();
         std::cout << "Action: " << action << std::endl;
         state = game->step(action, curr_reward, done);
