@@ -4,15 +4,15 @@
 #include <vector>
 
 #include "gridworld.h"
-#include "../snn/network.h"
+#include "../SNN/network.h"
 
 int main(int argc, char* argv[]) {
     //Seed randomness
     srand(time(0));
 
     //Create a new game
-    int width = 2;
-    int height = 2;
+    int width = 5;
+    int height = 5;
     rl_game::Gridworld* game = new rl_game::Gridworld(width, height);
 
     //Create a new network
@@ -26,17 +26,18 @@ int main(int argc, char* argv[]) {
     bool done = false;
     int total_reward, curr_reward = 0;
     long long timestep = 0;
-    while (!done && timestep < 100) {
+    while (!done && timestep < 1000) {
         //process the inputs in the network
         for (int i = 0; i < 20; i++) {
             network->process_inputs(state, timestep, state.size());
+            timestep++;
         }
         int action = network->get_action();
         std::cout << "Action: " << action << std::endl;
         state = game->step(action, curr_reward, done);
         total_reward += curr_reward;
         game->print_game_board();
-        timestep++;
+        //timestep++;
     }
 
     std::cout << "Total Reward: " << total_reward << std::endl;
