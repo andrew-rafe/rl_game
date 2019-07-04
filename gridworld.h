@@ -43,11 +43,13 @@ namespace rl_game {
             ~Gridworld();
 
             //Will return the new state given an action
-            std::vector<int> step(int action);
+            std::vector<float> step(int action);
             //Will return the new state given an action and will get out the done flag
-            std::vector<int> step(int action, bool& done);
+            std::vector<float> step(int action, bool& done);
             //Will return the new state vector as well as the ability to get out the reward and done flag
-            std::vector<int> step(int action, int& reward, bool& done);
+            std::vector<float> step(int action, int& reward, bool& done);
+
+            std::vector<float> get_state();
 
             //Will print the game board to the screen
             void print_game_board();

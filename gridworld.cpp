@@ -21,7 +21,7 @@ Gridworld::~Gridworld() {
     //delete m_board;
 }
 
-std::vector<int> Gridworld::step(int action) {
+std::vector<float> Gridworld::step(int action) {
     //Get the player grid location
     std::pair<int,int> player_coord = get_coord_from_index(m_player_index);
 
@@ -46,23 +46,28 @@ std::vector<int> Gridworld::step(int action) {
     m_board[m_player_index] = PLAYER;
 
 
-    return std::vector<int>();
+    return get_state();
 }
 
-std::vector<int> Gridworld::step(int action, bool& done) {
-    std::vector<int> world = step(action);
+std::vector<float> Gridworld::step(int action, bool& done) {
+    std::vector<float> world = step(action);
     //if the player is at the exit then the game is over
     done = (m_player_index == m_exit_index) ? true: false;
     return world;
 }
 
-std::vector<int> Gridworld::step(int action, int& reward, bool& done) {
+std::vector<float> Gridworld::step(int action, int& reward, bool& done) {
     done = false;
     reward = 0;
-    std::vector<int> world = step(action, done);
+    std::vector<float> world = step(action, done);
     reward = done ? 20 : -1;
 
     return world;
+}
+
+std::vector<float> Gridworld::get_state() {
+    std::vector<float> state(m_board.begin(), m_board.end());
+    return state;
 }
 
 void Gridworld::print_game_board() {
