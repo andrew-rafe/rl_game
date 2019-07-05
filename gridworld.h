@@ -51,6 +51,8 @@ namespace rl_game {
 
             std::vector<float> get_state();
 
+            void new_game();
+
             //Will print the game board to the screen
             void print_game_board();
     };

@@ -17,6 +17,7 @@ Gridworld::Gridworld(int num_rows, int num_columns) {
     m_board = generate_game_board();
 }
 
+
 Gridworld::~Gridworld() {
     //delete m_board;
 }
@@ -107,13 +108,21 @@ std::vector<int> Gridworld::generate_game_board () {
     //Place the player
     int x = rand() % m_num_columns;
     int y = rand() % m_num_rows;
-    while(!place_item(x, y, PLAYER, game_board)) { }
+    while(!place_item(x, y, PLAYER, game_board)) {
+        x = rand() % m_num_columns;
+        y = rand() % m_num_rows;
+        std::cout << "Placing Player again" << std::endl;
+     }
     //Set the member player index
     m_player_index = get_index(x,y);
     //Place the pickup exit
     x = rand() % m_num_columns;
     y = rand() % m_num_rows;
-    while(!place_item(x, y, EXIT, game_board)) { }
+    while(!place_item(x, y, EXIT, game_board)) { 
+        x = rand() % m_num_columns;
+        y = rand() % m_num_rows;
+        std::cout << "Placing Exit again" << std::endl;
+    }
     //Set the member exit index
     m_exit_index = get_index(x,y);
     return game_board;
@@ -156,4 +165,8 @@ bool Gridworld::place_item(int x, int y, int object, std::vector<int>& board) {
     }
     //Otherwise it is an invalid position therefore need to return false
     return false;
+}
+
+void Gridworld::new_game() {
+    m_board = generate_game_board();
 }
